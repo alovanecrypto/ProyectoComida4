@@ -11,11 +11,3 @@ services:
     envVars:
       - key: TIZA_PUBLIC_ORIGIN
         value: https://tiza-food-alonllosorio.onrender.com
-      - key: RESEND_API_KEY
-        sync: false
-      - key: TIZA_RECEIPT_FROM
-        sync: false
-      - key: GEMINI_API_KEY
-        sync: false
-      - key: GEMINI_MODEL
-        value: gemini-2.5-flash
