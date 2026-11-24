@@ -11,3 +11,7 @@ services:
     envVars:
       - key: TIZA_PUBLIC_ORIGIN
         value: https://tiza-food-alonllosorio.onrender.com
+      # El dueño escribe su correo de Firebase directamente en Render.
+      # No se publica en GitHub y su contraseña nunca se almacena aquí.
+      - key: TIZA_OWNER_EMAIL
+        sync: false

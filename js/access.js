@@ -14,6 +14,19 @@ module.exports = function access(root, helpers) {
   const FirebaseAuth = require("./firebase-auth");
   const FirebaseSession = require("./firebase-session");
   const firebase = FirebaseAuth.client((...args) => fetch(...args));
+  // En producción el dueño se define por configuración, pero el rol solo se
+  // concede después de validar la contraseña y la identidad con Firebase.
+  const ownerEmail = String(process.env.TIZA_OWNER_EMAIL || "")
+    .trim()
+    .toLowerCase();
+  const configuredRole = (identity) =>
+    identity?.emailVerified === true &&
+    ownerEmail &&
+    String(identity?.email || "")
+      .trim()
+      .toLowerCase() === ownerEmail
+      ? "dueno"
+      : undefined;
   const reportDay = (value) =>
     new Intl.DateTimeFormat("sv-SE", {
       timeZone: "America/Mexico_City",
@@ -460,7 +473,12 @@ module.exports = function access(root, helpers) {
               false,
             )
           : null;
-      const user = FirebaseAuth.profile(identity, allUsers(), details);
+      const user = FirebaseAuth.profile(
+        identity,
+        allUsers(),
+        details,
+        configuredRole(identity),
+      );
       if (b.staffRole && b.staffRole !== user.role) {
         send(res, 403, {
           error: "Esta cuenta no tiene permiso para este panel.",
@@ -557,7 +575,12 @@ module.exports = function access(root, helpers) {
           (...args) => fetch(...args),
           credential.idToken,
         );
-        user = FirebaseAuth.profile(identity, allUsers(), details);
+        user = FirebaseAuth.profile(
+          identity,
+          allUsers(),
+          details,
+          configuredRole(identity),
+        );
         if (b.staffRole && b.staffRole !== user.role) {
           send(res, 403, {
             error:
