@@ -564,14 +564,20 @@ const server = http.createServer((req, res) => {
   res.setHeader("Content-Security-Policy", contentPolicy);
   res.setHeader("X-Frame-Options", "DENY");
   const host = req.headers.host || "";
+  // Render checks this non-sensitive endpoint from its internal network before
+  // it accepts the public deployment. All other routes keep the host guard.
+  const isHealthCheck = req.method === "GET" && req.url === "/api/health";
   if (
-    !/^(?:::1|::ffff:127\.0\.0\.1|127\.0\.0\.1)$/.test(
-      req.socket.remoteAddress || "",
-    ) ||
-    !(
-      /^(?:localhost|127\.0\.0\.1|\[::1\])(?::\d{1,5})?$/i.test(host) ||
-      host === publicURL?.host ||
-      host === `${publicURL?.host}:${PORT}`
+    !isHealthCheck &&
+    (
+      !/^(?:::1|::ffff:127\.0\.0\.1|127\.0\.0\.1)$/.test(
+        req.socket.remoteAddress || "",
+      ) ||
+      !(
+        /^(?:localhost|127\.0\.0\.1|\[::1\])(?::\d{1,5})?$/i.test(host) ||
+        host === publicURL?.host ||
+        host === `${publicURL?.host}:${PORT}`
+      )
     )
   )
     return send(res, 421, {
