@@ -1630,26 +1630,12 @@ $("#registerForm").addEventListener("submit", async (e) => {
       body,
       await window.FoodCaptcha.request(authLogin ? "login" : "register"),
     );
-    let result;
-    if (staffLoginRole) {
-      const response = await fetch("api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      const raw = await response.text();
-      let data = {};
-      try {
-        data = raw ? JSON.parse(raw) : {};
-      } catch (e) {
-        throw Error(
-          "No se pudo conectar con el servidor. Abre INICIAR-TIZA-FOOD.cmd y entra en http://localhost:3000 (o usa index.html en Chrome).",
-        );
-      }
-      if (!response.ok) throw Error(data.error || "No se pudo iniciar sesión.");
-      result = data;
-    } else
-      result = await FoodEmail.authenticate(body, { register: !authLogin });
+    // El mismo flujo de Firebase se usa para clientes y personal. Así, un
+    // dueño o empleado también puede terminar su verificación de correo antes
+    // de crear la sesión, sin perder la validación de su rol en el servidor.
+    const result = await FoodEmail.authenticate(body, {
+      register: !authLogin,
+    });
     if (result.requiresNewLogin) {
       authLogin = true;
       renderAuthMode();
