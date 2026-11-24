@@ -2,17 +2,13 @@ services:
   - type: web
     runtime: node
     name: tiza-food-alonllosorio
-    plan: 0.5c-512mb
+    # Plan gratuito para la demostración escolar. Los archivos locales se
+    # reinician cuando Render vuelve a crear la instancia.
+    plan: free
     buildCommand: "npm install --ignore-scripts"
     startCommand: "npm start"
     healthCheckPath: /api/health
-    disk:
-      name: tiza-food-data
-      mountPath: /var/data
-      sizeGB: 1
     envVars:
-      - key: TIZA_DATA_DIR
-        value: /var/data
       - key: TIZA_PUBLIC_ORIGIN
         value: https://tiza-food-alonllosorio.onrender.com
       - key: RESEND_API_KEY
