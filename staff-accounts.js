@@ -20,7 +20,17 @@ const accounts=[
     "firebaseUid": "local-staff-empleado",
     "salt": "e0e4b87400a3e4ef079cb29ad388576d",
     "passwordHash": "cf8020945a4bafeb057bf8f34e8d5edaf6280d4f9b04a1baa48b17c762b5b7bf"
-  }
+  },
+  {
+      "name": "Empleado",
+      "email": "adrian128lol@gmail.com",
+      "username": "adrian128lol@gmail.com",
+      "role": "empleado",
+      "authProvider": "local-staff",
+      "firebaseUid": "local-staff-adrian",
+      "salt": "e0e4b87400a3e4ef079cb29ad388576d",
+      "passwordHash": "cf8020945a4bafeb057bf8f34e8d5edaf6280d4f9b04a1baa48b17c762b5b7bf"
+    }
 ];
 const emailOf=v=>String(v||'').trim().toLowerCase();
 const find=email=>accounts.find(u=>u.email===emailOf(email));
