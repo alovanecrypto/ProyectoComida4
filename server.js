@@ -570,7 +570,8 @@ const server = http.createServer((req, res) => {
     ) ||
     !(
       /^(?:localhost|127\.0\.0\.1|\[::1\])(?::\d{1,5})?$/i.test(host) ||
-      host === publicURL?.host
+      host === publicURL?.host ||
+      host === `${publicURL?.host}:${PORT}`
     )
   )
     return send(res, 421, {
