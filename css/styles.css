@@ -1850,6 +1850,90 @@ button {
 .nav-badge.bump {
   animation: bump 0.5s;
 }
+/* En teléfonos angostos el catálogo conserva dos columnas y reduce la
+   altura de imágenes para que la app no se perciba como una versión gigante. */
+@media (max-width: 480px) {
+  :root {
+    --nav-h: 74px;
+  }
+  body {
+    font-size: 15px;
+  }
+  .topbar {
+    padding-inline: 12px;
+  }
+  .brand {
+    gap: 7px;
+    font-size: 1.08rem;
+  }
+  .brand-logo {
+    width: 30px;
+    height: 30px;
+  }
+  .view,
+  .menu-section,
+  .promos-section,
+  .coupons-section {
+    padding-inline: 12px;
+  }
+  .hero-section {
+    padding: 16px 12px;
+  }
+  .main-title {
+    font-size: clamp(2rem, 10vw, 2.6rem);
+  }
+  .hero-emoji {
+    width: 126px;
+    height: 126px;
+    font-size: 4.1rem;
+  }
+  .menu {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .item {
+    border-radius: 16px;
+  }
+  .item-img,
+  .item-img img {
+    height: 104px;
+  }
+  .emoji {
+    font-size: 3.3rem;
+  }
+  .item-name {
+    min-height: 2.6em;
+    padding: 9px 6px 2px;
+    font-size: 0.82rem;
+  }
+  .item-add {
+    margin: 6px 8px 10px;
+    font-size: 0.7rem;
+  }
+  .product-card {
+    width: 184px;
+    margin-right: 10px;
+    padding: 11px;
+  }
+  .card-img,
+  .card-emoji {
+    height: 100px;
+    margin-top: 12px;
+  }
+  .bottom-nav {
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+    width: calc(100% - 16px);
+    padding: 6px 4px;
+  }
+  .nav-btn {
+    padding: 5px 0;
+    font-size: 0.62rem;
+  }
+  .nav-btn svg {
+    width: 21px;
+    height: 21px;
+  }
+}
 @keyframes bump {
   30% {
     transform: scale(1.5);
